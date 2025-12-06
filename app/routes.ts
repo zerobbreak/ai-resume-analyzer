@@ -5,4 +5,6 @@ export default [
     route("/auth", "routes/auth.tsx"),
     route("/upload", "routes/upload.tsx"),
     route("/resume/:id", "routes/resume.tsx"),
+    route("/wipe", "routes/wipe.tsx"),
+    route("/.well-known/appspecific/com.chrome.devtools.json", "routes/devtools.ts")
 ] satisfies RouteConfig;

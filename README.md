@@ -1,87 +1,84 @@
-# Welcome to React Router!
+# AI Resume Analyzer
 
-A modern, production-ready template for building full-stack React applications using React Router.
+A modern, AI-powered application that helps job seekers improve their resumes. It allows users to upload PDF resumes, which are then analyzed by AI to provide detailed feedback, ATS scores, and actionable improvement tips.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## 🚀 Features
 
-## Features
+- **AI-Powered Analysis**: Uses advanced AI models (via Puter.js) to analyze resume content.
+- **Comprehensive Feedback**:
+  - **ATS Score**: Evaluates how well the resume parses for Applicant Tracking Systems.
+  - **Category Breakdown**: detailed analysis of Tone & Style, Content, Structure, and Skills.
+  - **Actionable Tips**: Specific "Good" and "Improve" suggestions for each category.
+- **PDF Handling**: Automatically converts uploaded PDFs to images for preview.
+- **User Dashboard**: Track and manage previously uploaded resumes with their scores.
+- **Authentication**: Secure user accounts managed by Puter.js.
+- **Cloud Storage**: Files and analysis data persisted securely in the cloud.
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## 🛠️ Tech Stack
 
-## Getting Started
+- **Framework**: [React Router v7](https://reactrouter.com/) (formerly Remix)
+- **Language**: TypeScript
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) & `tw-animate-css`
+- **Backend Services**: [Puter.js](https://docs.puter.com/)
+  - Auth (Authentication)
+  - AI (LLM Integration)
+  - FS (File System)
+  - KV (Key-Value Database)
+- **State Management**: Zustand
+- **PDF Processing**: `pdfjs-dist`
+
+## 📦 Getting Started
+
+### Prerequisites
+
+This project is designed to run within the [Puter.com](https://puter.com) ecosystem or an environment where `puter.js` is available and configured.
 
 ### Installation
 
-Install the dependencies:
+1.  Clone the repository:
 
-```bash
-npm install
-```
+    ```bash
+    git clone https://github.com/yourusername/ai-resume-analyzer.git
+    cd ai-resume-analyzer
+    ```
 
-### Development
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
 
-Start the development server with HMR:
+### Running Locally
+
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+The application will be available at `http://localhost:5173`.
 
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
+## 📂 Project Structure
 
 ```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+app/
+├── components/     # Reusable UI components (ResumeCard, Details, ATS, etc.)
+├── constants/      # App constants and mock data
+├── lib/            # Utilities and Puter store configuration
+│   ├── puter.ts    # Puter.js integration & Zustand store
+│   └── pdf2image.ts# PDF conversion logic
+├── routes/         # Application routes (File-based routing)
+│   ├── home.tsx    # Dashboard / Label page
+│   ├── upload.tsx  # Resume upload & analysis page
+│   ├── resume.tsx  # Individual resume details view
+│   ├── auth.tsx    # Authentication page
+│   └── wipe.tsx    # Utility route to clear app data
+└── app.css         # Global styles & Tailwind configuration
 ```
 
-## Styling
+## 🧹 Maintenance
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+A utility route `/wipe` is available to clear all application data (uploaded files and database records) during development.
 
 ---
 
-Built with ❤️ using React Router.
+Built with ❤️ using React Router and Puter.js.

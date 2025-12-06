@@ -12,6 +12,7 @@ const ResumeCard = ({
   const [resumeUrl, setResumeUrl] = useState<string | null>();
   useEffect(() => {
     const loadResume = async () => {
+      if (!imagePath) return;
       const blob = await fs.read(imagePath);
       if (!blob) return;
 
@@ -20,7 +21,6 @@ const ResumeCard = ({
     };
     loadResume();
   }, [imagePath]);
-  console.log(resumeUrl);
 
   return (
     <Link
@@ -30,7 +30,7 @@ const ResumeCard = ({
       <div className="resume-card-header">
         <div className="flex flex-col gap-2">
           {companyName && (
-            <h2 className=" text-black! font-bold break-words">
+            <h2 className=" text-black! font-bold break-words line-clamp-2">
               {companyName}
             </h2>
           )}

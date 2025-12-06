@@ -39,7 +39,7 @@ const Resume = () => {
           setResumeUrl(url);
         }
 
-        const imageBlob = await fs.read(data.image);
+        const imageBlob = await fs.read(data.imagePath);
         if (imageBlob) {
           const image = new Blob([imageBlob], { type: "image/jpeg" });
           const imageUrl = URL.createObjectURL(image);
