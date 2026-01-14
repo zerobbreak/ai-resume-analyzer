@@ -5,13 +5,38 @@ interface Job {
   requiredSkills: string[];
 }
 
+interface HRReviewFeedback {
+  overallScore: number;
+  firstImpression: {
+    score: number;
+    timeEstimate: string;
+    tips: { type: "good" | "improve"; tip: string; explanation: string }[];
+  };
+  visualHierarchy: {
+    score: number;
+    tips: { type: "good" | "improve"; tip: string; explanation: string }[];
+  };
+  scannability: {
+    score: number;
+    scanPath: string;
+    tips: { type: "good" | "improve"; tip: string; explanation: string }[];
+  };
+  keyInformation: {
+    score: number;
+    foundInSeconds: string[];
+    tips: { type: "good" | "improve"; tip: string; explanation: string }[];
+  };
+  passWouldMove: boolean;
+}
+
 interface Resume {
   id: string;
   companyName?: string;
   jobTitle?: string;
   imagePath: string;
   resumePath: string;
-  feedback: Feedback;
+  analysisType: "job-specific" | "hr-review";
+  feedback: Feedback | HRReviewFeedback;
 }
 
 interface Feedback {
