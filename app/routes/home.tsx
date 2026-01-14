@@ -15,6 +15,7 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const { auth, kv } = usePuterStore();
   const navigate = useNavigate();
+  const location = useLocation();
   const [resumes, setResumes] = useState<Resume[]>([]);
   const [loadingResumes, setLoadingResumes] = useState(false);
 
@@ -22,8 +23,10 @@ export default function Home() {
     if (!auth.isAuthenticated) navigate("/auth?next=/");
   }, [auth.isAuthenticated]);
 
+  // Reload resumes whenever the page is navigated to (location.key changes)
   useEffect(() => {
     const loadResumes = async () => {
+      if (!auth.isAuthenticated) return;
       setLoadingResumes(true);
       const resumes = (await kv.list("resume:*", true)) as KVItem[];
       const parsedResumes = resumes.map(
@@ -34,7 +37,7 @@ export default function Home() {
       setLoadingResumes(false);
     };
     loadResumes();
-  }, []);
+  }, [auth.isAuthenticated, location.key]);
 
   return (
     <main className="bg-[url('/images/bg-main.svg')] bg-cover min-h-screen">

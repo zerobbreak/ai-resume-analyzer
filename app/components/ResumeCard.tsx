@@ -10,14 +10,24 @@ const ResumeCard = ({
 }) => {
   const { fs } = usePuterStore();
   const [resumeUrl, setResumeUrl] = useState<string | null>();
+  const [imageError, setImageError] = useState(false);
+
   useEffect(() => {
     const loadResume = async () => {
       if (!imagePath) return;
-      const blob = await fs.read(imagePath);
-      if (!blob) return;
+      try {
+        const blob = await fs.read(imagePath);
+        if (!blob) {
+          setImageError(true);
+          return;
+        }
 
-      let url = URL.createObjectURL(blob);
-      setResumeUrl(url);
+        let url = URL.createObjectURL(blob);
+        setResumeUrl(url);
+      } catch {
+        console.log("Failed to load resume image");
+        setImageError(true);
+      }
     };
     loadResume();
   }, [imagePath]);
@@ -55,6 +65,14 @@ const ResumeCard = ({
               alt="resume"
               className="w-full h-[350px] max-sm:h-[200px] object-cover object-top"
             />
+          </div>
+        </div>
+      )}
+
+      {imageError && !resumeUrl && (
+        <div className="gradient-border animate-in fade-in duration-1000 bg-gray-100">
+          <div className="w-full h-[350px] max-sm:h-[200px] flex items-center justify-center text-gray-400">
+            <span>Preview not available</span>
           </div>
         </div>
       )}
