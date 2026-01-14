@@ -76,6 +76,10 @@ interface PuterStore {
       path: string,
       message: string
     ) => Promise<AIResponse | undefined>;
+    improveResume: (
+      path: string,
+      instructions: string
+    ) => Promise<AIResponse | undefined>;
     img2txt: (
       image: string | File | Blob,
       testMode?: boolean
@@ -350,7 +354,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
           ],
         },
       ],
-      { model: "claude-3-7-sonnet" }
+      { model: "claude-3-7-sonnet-latest" }
     ) as Promise<AIResponse | undefined>;
   };
 
@@ -381,13 +385,16 @@ export const usePuterStore = create<PuterStore>((set, get) => {
     return puter.kv.set(key, value);
   };
 
-  const deleteKV = async (key: string) => {
+  const deleteKV = async (key: string): Promise<boolean | undefined> => {
     const puter = getPuter();
     if (!puter) {
       setError("Puter.js not available");
       return;
     }
-    return puter.kv.delete(key);
+    // Puter.js uses 'del' not 'delete' for KV deletion
+    return (
+      puter.kv as unknown as { del: (key: string) => Promise<boolean> }
+    ).del(key);
   };
 
   const listKV = async (pattern: string, returnValues?: boolean) => {
@@ -439,6 +446,8 @@ export const usePuterStore = create<PuterStore>((set, get) => {
         options?: PuterChatOptions
       ) => chat(prompt, imageURL, testMode, options),
       feedback: (path: string, message: string) => feedback(path, message),
+      improveResume: (path: string, instructions: string) =>
+        feedback(path, instructions),
       img2txt: (image: string | File | Blob, testMode?: boolean) =>
         img2txt(image, testMode),
     },
