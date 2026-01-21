@@ -13,9 +13,11 @@ const Upload = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [statusText, setStatusText] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [submitError, setSubmitError] = useState<string>("");
 
   const handleFileSelect = (file: File | null) => {
     setFile(file);
+    setSubmitError("");
   };
 
   const handleAnalyze = async ({
@@ -105,16 +107,21 @@ const Upload = () => {
     if (!form) return;
     const formData = new FormData(form);
 
-    const companyName = formData.get("company-name");
-    const jobTitle = formData.get("job-title");
-    const jobDescription = formData.get("job-description");
+    const companyName = (formData.get("company-name") as string) || "";
+    const jobTitle = (formData.get("job-title") as string) || "";
+    const jobDescription = (formData.get("job-description") as string) || "";
 
-    if (!file) return;
+    if (!file) {
+      setSubmitError(
+        "Please upload your CV (PDF) so we can analyze it against this job."
+      );
+      return;
+    }
 
     handleAnalyze({
-      companyName: companyName as string,
-      jobTitle: jobTitle as string,
-      jobDescription: jobDescription as string,
+      companyName,
+      jobTitle,
+      jobDescription,
       file,
     });
   };
@@ -170,6 +177,10 @@ const Upload = () => {
                 <label htmlFor="uploader">Upload Resume</label>
                 <FileUploader onFileSelect={handleFileSelect} />
               </div>
+
+              {submitError && (
+                <p className="text-sm text-red-600 -mt-1">{submitError}</p>
+              )}
 
               <button className="primary-button" type="submit">
                 Analyze Resume
