@@ -8,8 +8,4 @@ export default [
   route("/hr-review", "routes/hr-review.tsx"),
   route("/hr-review/:id", "routes/hr-review.$id.tsx"),
   route("/wipe", "routes/wipe.tsx"),
-  route(
-    "/.well-known/appspecific/com.chrome.devtools.json",
-    "routes/devtools.ts"
-  ),
 ] satisfies RouteConfig;
